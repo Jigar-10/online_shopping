@@ -1,0 +1,15 @@
+# Database Configuration Template for Online Shopping DBMS System
+# Copy this file to 'db.properties' (in project root or resources) and set your local MySQL credentials.
+
+db.host=localhost
+db.port=3306
+db.name=online_shopping
+db.username=root
+db.password=YOUR_MYSQL_PASSWORD
+
+# Advanced JDBC connection parameters
+db.useSSL=false
+db.allowPublicKeyRetrieval=true
+db.serverTimezone=UTC
+db.characterEncoding=UTF-8
+db.connectionTimeoutMs=5000

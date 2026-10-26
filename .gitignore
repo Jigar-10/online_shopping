@@ -1,0 +1,33 @@
+# Compiled class files
+target/
+*.class
+
+# Log files
+*.log
+
+# Sensitive database credentials
+db.properties
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Temporary/Local wrapper
+apache-maven-3.9.9/
+powershell.bat
