@@ -52,8 +52,9 @@ public class SidebarPanel extends JPanel {
         menuPanel.setOpaque(false);
         menuPanel.setBorder(new EmptyBorder(6, 12, 16, 12));
 
-        addSectionHeader(menuPanel, "MAIN");
-        addNavButton(menuPanel, "dashboard", "Dashboard", "📊");
+        addSectionHeader(menuPanel, "PORTALS & MAIN");
+        addNavButton(menuPanel, "customer_store", "Customer Storefront", "🛒");
+        addNavButton(menuPanel, "dashboard", "Admin Dashboard", "📊");
 
         addSectionHeader(menuPanel, "CUSTOMERS & SHIPPING");
         addNavButton(menuPanel, "customers", "Customers", "👥");

@@ -25,8 +25,11 @@ MySQL 8.0 Database (`online_shopping`)
 ```
 
 - **Clean Layered Architecture**: Strictly separated UI, Business Logic, and Data Access layers.
+- **Dual-Portal Integration**: Seamless 1-click switching between **Admin Studio** (full schema CRUD, views, and system management) and **Customer Storefront** (live shopping catalog, shopping cart, reviews, addresses, and order checkout).
+- **Synchronized MySQL Live Data**: Admin edits to products, categories, or prices immediately update the Customer Storefront. Customer checkout transactions immediately update `ORDERS`, `ORDER_ITEM`, `PAYMENT`, reduce product stock via database triggers, and reflect in the Admin Dashboard KPIs.
+- **Curated Light Aesthetic**: Clean, modern FlatLaf light palette featuring crisp whites (`#FFFFFF`), subtle slate backgrounds (`#F8FAFC`), gentle borders (`#E2E8F0`), and professional indigo accents (`#2563EB`).
 - **Async Execution**: All database queries run in background `SwingWorker` threads to prevent Event Dispatch Thread (EDT) freezes.
-- **Modern UI/UX**: FlatLaf Dark and Light mode themes, live MySQL connection status indicator badge, responsive layout, search and filtering, formatted currency (`₹`), and descriptive dropdowns.
+- **Modern UI/UX**: Live MySQL connection status indicator badge, responsive layout, search and filtering, formatted currency (`₹`), and descriptive dropdowns.
 
 ---
 
@@ -61,6 +64,31 @@ The application provides complete CRUD management for all 14 base tables:
 12. **`CREDIT_CARD`**: Payment ID (PK/FK), Card Number, CVV, Expiry Date.
 13. **`DIGITAL_WALLET`**: Payment ID (PK/FK), Provider (Paytm/PhonePe/GPay), Wallet Reference ID.
 14. **`REVIEW`**: Review ID, Customer (FK dropdown), Product (FK dropdown), Rating (1–5 Stars), Comment.
+
+---
+
+## 🛍 Customer Storefront Portal (Light White & Slate Theme)
+
+Click **"🛍 Customer Storefront"** in the top bar or sidebar to switch into the shopper view:
+
+- **Active Customer Switcher**: Dropdown in the top header (`Shopping as: [Customer Name]`) switches the active session across real customers in the `CUSTOMER` table.
+- **Product Catalog Grid**:
+  - Category pill filter tabs (All, Electronics, Fashion, Home Appliances, etc.).
+  - Real-time search bar & price sorting (Low to High, High to Low).
+  - Modern white product cards displaying title, category badge, formatted price (`₹`), stock badge (In Stock / Out of Stock), "Quick Add to Cart", and "View Details".
+- **Product Detail & Review Modal**:
+  - Full product specs, supplier information, and stock status.
+  - Live customer reviews list with star ratings (★) and verified comments.
+  - Interactive "Write a Review" form submitting real records into the `REVIEW` table.
+- **Shopping Cart & Checkout**:
+  - Real-time cart synchronization stored in `CART` and `CART_ITEM`.
+  - Increment, decrement, or remove items with automatic total calculation.
+  - Delivery address selection with an inline **"➕ Add New Address"** dialog updating the `ADDRESS` table.
+  - Payment method options: **Credit Card** (card number, CVV, expiry date saved to `CREDIT_CARD`) and **Digital Wallet** (Paytm/PhonePe/GPay saved to `DIGITAL_WALLET`).
+  - **Atomic Transactional Checkout (ACID)**: Runs in background SwingWorker using `setAutoCommit(false)` to generate shipment, order, order items, and payment, while triggering MySQL trigger `reduce_product_stock` to decrement inventory.
+- **My Orders & Tracking**: View past order history with tracking numbers, status badges, and expandable line item breakdowns.
+- **My Saved Addresses**: Manage delivery address book with street, city, state, country, and postal code.
+- **1-Click Sync & Return**: Click **"⚙ Admin Studio"** at any time to inspect how the placed order, inventory deduction, and payment records reflect across the 14 DBMS tables.
 
 ---
 

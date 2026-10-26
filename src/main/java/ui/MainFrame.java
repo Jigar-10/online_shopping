@@ -3,6 +3,7 @@ package ui;
 import config.DatabaseConnection;
 import dao.*;
 import model.*;
+import ui.customer.CustomerPortalPanel;
 import ui.dialog.*;
 import ui.util.NotificationUtils;
 import ui.util.UITheme;
@@ -51,7 +52,8 @@ public class MainFrame extends JFrame {
         topBar = new TopBarPanel(
                 this::openDatabaseConfig,
                 UITheme::toggleTheme,
-                this::refreshCurrentScreen
+                this::refreshCurrentScreen,
+                () -> navigateTo("customer_store")
         );
 
         sidebar = new SidebarPanel(this::navigateTo);
@@ -622,6 +624,10 @@ public class MainFrame extends JFrame {
         // 16. Views Panel
         ViewsPanel viewsPanel = new ViewsPanel();
         addScreen("views", viewsPanel);
+
+        // 17. Customer Storefront Portal
+        CustomerPortalPanel customerPortal = new CustomerPortalPanel(() -> navigateTo("dashboard"));
+        addScreen("customer_store", customerPortal);
     }
 
     private void addScreen(String id, JComponent component) {
@@ -644,28 +650,39 @@ public class MainFrame extends JFrame {
         if (screens.containsKey(id)) {
             currentScreen = id;
             cardLayout.show(contentArea, id);
-            sidebar.setActive(id);
 
-            String title = switch (id) {
-                case "dashboard" -> "Dashboard Overview";
-                case "customers" -> "Customers Management";
-                case "addresses" -> "Addresses Management";
-                case "shipping" -> "Shipments & Tracking";
-                case "categories" -> "Product Categories";
-                case "suppliers" -> "Suppliers Management";
-                case "products" -> "Products Inventory";
-                case "carts" -> "Shopping Carts";
-                case "cart_items" -> "Cart Items";
-                case "orders" -> "Orders Management";
-                case "order_items" -> "Order Line Items";
-                case "payments" -> "Payments Management";
-                case "credit_cards" -> "Credit Card Records";
-                case "digital_wallets" -> "Digital Wallet Records";
-                case "reviews" -> "Product Reviews";
-                case "views" -> "Database Views (Experiment 7)";
-                default -> id.toUpperCase();
-            };
-            topBar.setTitle(title);
+            if ("customer_store".equals(id)) {
+                sidebar.setVisible(false);
+                topBar.setVisible(false);
+                setTitle("NovaMart - Online Shopping Customer Storefront (MySQL 8.0)");
+            } else {
+                sidebar.setVisible(true);
+                topBar.setVisible(true);
+                setTitle("Online Shopping DBMS Desktop Studio - MySQL 8.0");
+                sidebar.setActive(id);
+
+                String title = switch (id) {
+                    case "dashboard" -> "Dashboard Overview";
+                    case "customers" -> "Customers Management";
+                    case "addresses" -> "Addresses Management";
+                    case "shipping" -> "Shipments & Tracking";
+                    case "categories" -> "Product Categories";
+                    case "suppliers" -> "Suppliers Management";
+                    case "products" -> "Products Inventory";
+                    case "carts" -> "Shopping Carts";
+                    case "cart_items" -> "Cart Items";
+                    case "orders" -> "Orders Management";
+                    case "order_items" -> "Order Line Items";
+                    case "payments" -> "Payments Management";
+                    case "credit_cards" -> "Credit Card Records";
+                    case "digital_wallets" -> "Digital Wallet Records";
+                    case "reviews" -> "Product Reviews";
+                    case "views" -> "Database Views (Experiment 7)";
+                    default -> id.toUpperCase();
+                };
+                topBar.setTitle(title);
+            }
+            refreshCurrentScreen();
         }
     }
 
@@ -677,6 +694,8 @@ public class MainFrame extends JFrame {
             p.reload();
         } else if (comp instanceof ViewsPanel v) {
             v.reload();
+        } else if (comp instanceof CustomerPortalPanel cp) {
+            cp.reload();
         }
     }
 
