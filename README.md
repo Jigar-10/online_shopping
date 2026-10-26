@@ -2,7 +2,9 @@
 
 A comprehensive, production-grade desktop DBMS management application developed for DBMS college project requirements (covering Experiments 3, 4, 5, 6, 7, and 8).
 
-Built using **Java 17+ (Java 26 supported), Java Swing with modern FlatLaf UI, JDBC, and MySQL 8.0**.
+> 🌐 **Live Web Showcase (GitHub Pages):** [https://jigar-10.github.io/online_shopping/](https://jigar-10.github.io/online_shopping/)
+> 
+> Explore the live interactive Customer Storefront, Admin Studio (14 tables explorer), and DBMS Experiments 3–8 right in your browser!
 
 ---
 
