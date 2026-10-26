@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaMart DBMS - Online Shopping Application & Experiments 3-8</title>
+  <meta name="description" content="Online Shopping DBMS College Project built with MySQL 8.0, Java Swing, and JDBC. Live interactive showcase for GitHub Pages.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="brand">
+        <span class="brand-icon">🛍</span>
+        <div>
+          <span class="brand-title">NovaMart DBMS</span>
+          <span class="brand-badge">MySQL 8.0</span>
+        </div>
+      </a>
+
+      <!-- View Toggle: Customer vs Admin -->
+      <div class="view-toggle">
+        <button id="toggle-customer" class="toggle-btn active">
+          <span>🛒</span> Customer Storefront
+        </button>
+        <button id="toggle-admin" class="toggle-btn">
+          <span>🛡</span> Admin Studio
+        </button>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="header-actions">
+        <div id="customer-selector-wrap" class="user-select-wrap">
+          <span>Shopping as:</span>
+          <select id="customer-select" class="select-input"></select>
+        </div>
+
+        <button id="cart-button" class="cart-btn">
+          <span>🛒 Cart</span>
+          <span id="cart-badge" class="cart-badge">0</span>
+        </button>
+
+        <a href="https://github.com/Jigar-10/online_shopping" target="_blank" class="github-link">
+          <span>⭐️ GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- VIEW 1: CUSTOMER STOREFRONT -->
+    <section id="customer-view" class="view-section active">
+      
+      <!-- Store Hero Banner -->
+      <div class="hero-banner">
+        <img src="images/banner.jpg" alt="NovaMart Storefront Banner" onerror="this.style.display='none'"/>
+        <div class="hero-content">
+          <div class="hero-text">
+            <h2>Summer Technology & Lifestyle Collection</h2>
+            <p>Explore real-time synchronized catalog items stored in MySQL 8.0 `PRODUCT` table.</p>
+          </div>
+          <div class="hero-tags">
+            <span class="hero-tag">Live Cart Sync</span>
+            <span class="hero-tag">ACID Transactions</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div id="category-pills" class="category-pills"></div>
+        <div class="filter-actions">
+          <input type="text" id="search-input" class="search-input" placeholder="Search catalog..."/>
+          <select id="sort-select" class="select-input">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name-az">Name: A to Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="products-grid" class="products-grid"></div>
+
+    </section>
+
+    <!-- VIEW 2: ADMIN STUDIO -->
+    <section id="admin-view" class="view-section">
+      
+      <!-- Live KPIs -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-title">Total Gross Revenue</div>
+          <div id="kpi-rev" class="kpi-val">₹ 63,594.00</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Completed Orders</div>
+          <div id="kpi-orders" class="kpi-val">5 Orders</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Active Customers</div>
+          <div id="kpi-cust" class="kpi-val">5 Customers</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Catalog Inventory</div>
+          <div id="kpi-prod" class="kpi-val">5 Products</div>
+        </div>
+      </div>
+
+      <!-- Admin Layout -->
+      <div class="admin-grid">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+          <div class="admin-nav-title">Relational Tables (14)</div>
+          <ul id="admin-nav" class="admin-nav-list">
+            <li class="admin-nav-item active" data-table="products">
+              <span>📦 Products</span>
+              <span class="badge-count">PRODUCT</span>
+            </li>
+            <li class="admin-nav-item" data-table="customers">
+              <span>👤 Customers</span>
+              <span class="badge-count">CUSTOMER</span>
+            </li>
+            <li class="admin-nav-item" data-table="orders">
+              <span>📑 Orders</span>
+              <span class="badge-count">ORDERS</span>
+            </li>
+            <li class="admin-nav-item" data-table="order_items">
+              <span>🛒 Order Items</span>
+              <span class="badge-count">ORDER_ITEM</span>
+            </li>
+            <li class="admin-nav-item" data-table="payments">
+              <span>💳 Payments</span>
+              <span class="badge-count">PAYMENT</span>
+            </li>
+            <li class="admin-nav-item" data-table="credit_cards">
+              <span>💳 Credit Cards</span>
+              <span class="badge-count">CREDIT_CARD</span>
+            </li>
+            <li class="admin-nav-item" data-table="digital_wallets">
+              <span>📱 Digital Wallets</span>
+              <span class="badge-count">DIGITAL_WALLET</span>
+            </li>
+            <li class="admin-nav-item" data-table="shipping">
+              <span>🚚 Shipping</span>
+              <span class="badge-count">SHIPPING</span>
+            </li>
+            <li class="admin-nav-item" data-table="addresses">
+              <span>📍 Addresses</span>
+              <span class="badge-count">ADDRESS</span>
+            </li>
+            <li class="admin-nav-item" data-table="categories">
+              <span>🏷 Categories</span>
+              <span class="badge-count">CATEGORY</span>
+            </li>
+            <li class="admin-nav-item" data-table="suppliers">
+              <span>🏭 Suppliers</span>
+              <span class="badge-count">SUPPLIER</span>
+            </li>
+            <li class="admin-nav-item" data-table="reviews">
+              <span>⭐️ Reviews</span>
+              <span class="badge-count">REVIEW</span>
+            </li>
+            <li class="admin-nav-item" data-table="carts">
+              <span>🛒 Carts</span>
+              <span class="badge-count">CART</span>
+            </li>
+            <li class="admin-nav-item" data-table="cart_items">
+              <span>📋 Cart Items</span>
+              <span class="badge-count">CART_ITEM</span>
+            </li>
+          </ul>
+
+          <div class="admin-nav-title">DBMS Experiments 3–8</div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(3)">Exp 3: DDL Schema</button>
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(4)">Exp 4: DML Seed Data</button>
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(5)">Exp 5: DQL Joins</button>
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(6)">Exp 6: DCL Roles</button>
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(7)">Exp 7: Views & Triggers</button>
+            <button class="btn-secondary" style="text-align: left;" onclick="runExperimentQuery(8)">Exp 8: TCL Transactions</button>
+          </div>
+        </aside>
+
+        <!-- Main Content (Table & SQL Console) -->
+        <div class="admin-content">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="admin-table-title" style="font-size: 17px; font-weight: 700;">Table: PRODUCTS</h3>
+            <span style="font-size: 12px; color: var(--text-muted);">Synchronized in-memory relational dataset</span>
+          </div>
+
+          <div id="admin-table-container" class="table-container"></div>
+
+          <div style="margin-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="font-size: 14px; font-weight: 700;">SQL Query Inspector & Experiments Output</h4>
+              <span style="font-size: 12px; color: var(--text-muted);">MySQL 8.0 dialect</span>
+            </div>
+            <pre id="sql-output" class="sql-console"></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Interactive Modal (Product Detail / Shopping Cart) -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">Dialog</h3>
+        <button id="modal-close" class="modal-close">✕</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
